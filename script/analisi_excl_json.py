@@ -58,9 +58,10 @@ def process_videos_realtime(video_folder, output_excel, output_json):
                 else:
                     valid_preds = predictions
 
-                # 4. ESTRAZIONE STATISTICA: Media + Picchi (Max)
+                # 4. ESTRAZIONE STATISTICA: Media + Picchi (Max) + Varianza (Std)
                 mean_aus = valid_preds.aus.mean().add_prefix('Mean_')
                 max_aus = valid_preds.aus.max().add_prefix('Max_') # Trova l'intensità massima dell'AU
+                std_aus = valid_preds.aus.std().add_prefix('Std_') # Aggiunta del calcolo della deviazione standard
                 
                 mean_emotions = valid_preds.emotions.mean()
                 dominant_emotion = mean_emotions.idxmax()
@@ -72,9 +73,10 @@ def process_videos_realtime(video_folder, output_excel, output_json):
                     "Nome_File": video_file
                 }
                 
-                # Uniamo le medie e i valori massimi nel dizionario
+                # Uniamo le medie, i valori massimi e la deviazione standard nel dizionario
                 row.update(mean_aus.to_dict())
                 row.update(max_aus.to_dict())
+                row.update(std_aus.to_dict())
                 
                 summary_data.append(row)
                 
@@ -87,7 +89,7 @@ def process_videos_realtime(video_folder, output_excel, output_json):
                 df_temp.to_excel(output_excel, index=False)
                 df_temp.to_json(output_json, orient="records", indent=4)
                 
-                print(f"✅ Dati di {video_id} salvati (Media e Picchi registrati).")
+                print(f"✅ Dati di {video_id} salvati (Media, Picchi e Dev. Standard registrati).")
             else:
                 print(f"❓ Nessun volto rilevato nel video {video_file}. Salto...")
 
