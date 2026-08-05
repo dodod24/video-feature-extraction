@@ -29,7 +29,7 @@ def elabora_cartella_video(path_cartella_originale, durata_taglio=30):
                 video = VideoFileClip(input_path)
                 durata_totale = video.duration
                 
-                # Il taglio parte a metÃ  del video
+                # Il taglio parte a metà del video
                 start_time = durata_totale / 2
                 end_time = min(durata_totale, start_time + durata_taglio)
                 
@@ -50,5 +50,5 @@ def elabora_cartella_video(path_cartella_originale, durata_taglio=30):
 
 # Esempio di utilizzo:
 # Inserisci qui il percorso della tua cartella (es: "C:/Video/MieiVideo" o semplicemente "MieiVideo")
-percorso_input = "C:/Users/dodod/WPy64-31180/VIDEO/CONTROLLI"
+percorso_input = "C:/Users/arion/Desktop/Tirocinio_AI_Pyt/fe/WPy64-31180/Video/CONTROLLI/records"
 elabora_cartella_video(percorso_input)

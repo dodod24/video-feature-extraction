@@ -1,0 +1,8 @@
+# Ignora la cartella delle analisi e i file generati
+Analisi/
+*.xlsx
+*.json
+
+# Ignora cartelle generate da Python
+__pycache__/
+*.pyc
