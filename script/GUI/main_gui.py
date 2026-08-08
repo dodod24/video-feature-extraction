@@ -4,7 +4,8 @@ import threading
 import tkinter as tk
 from tkinter import filedialog, messagebox
 
-# Importiamo la logica di analisi dallo script pulito
+# Aggiungiamo la cartella Analisi al path per poter importare gli script
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'Analisi')))
 from analisi_excl_json import process_videos_realtime
 
 class TextRedirector(object):
@@ -29,6 +30,7 @@ def avvia_gui():
 
     input_paths = []
     output_dir = tk.StringVar()
+    output_dir_disp = tk.StringVar(value="Nessuna cartella selezionata")
     base_name = tk.StringVar(value="Analisi_AU_AltaPrecisione")
     extract_ear_var = tk.BooleanVar(value=False)
     extract_mar_var = tk.BooleanVar(value=False)
@@ -58,6 +60,7 @@ def avvia_gui():
         folder = filedialog.askdirectory(title="Seleziona cartella di destinazione")
         if folder:
             output_dir.set(folder)
+            output_dir_disp.set(os.path.basename(folder))
 
     def esegui_analisi():
         if not input_paths:
@@ -108,7 +111,7 @@ def avvia_gui():
     frame_out = tk.Frame(root)
     frame_out.pack(pady=5)
     tk.Button(frame_out, text="Seleziona Cartella Output", command=seleziona_output).pack(side=tk.LEFT, padx=5)
-    tk.Label(frame_out, textvariable=output_dir, fg="blue").pack(side=tk.LEFT, padx=5)
+    tk.Label(frame_out, textvariable=output_dir_disp, fg="blue").pack(side=tk.LEFT, padx=5)
 
     tk.Label(root, text="3. Nome base dei file generati:", font=("Arial", 10, "bold")).pack(pady=(10, 0))
     tk.Entry(root, textvariable=base_name, width=40).pack(pady=2)
