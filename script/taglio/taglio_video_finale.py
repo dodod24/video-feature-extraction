@@ -1,11 +1,10 @@
 import os
 from moviepy.editor import VideoFileClip
 
-def elabora_cartella_video(path_cartella_originale, durata_taglio=30):
-    # 1. Crea il nome della nuova cartella (es: "Video" -> "Video_taglio")
-    # Rimuove eventuali slash finali per evitare errori nel nome
+def elabora_cartella_video_finale(path_cartella_originale, durata_taglio=30):
+    # 1. Crea il nome della nuova cartella
     path_cartella_originale = path_cartella_originale.rstrip(os.sep)
-    nuova_cartella = f"{path_cartella_originale}_taglio"
+    nuova_cartella = f"{path_cartella_originale}_taglio_finale"
 
     # 2. Crea la cartella se non esiste
     if not os.path.exists(nuova_cartella):
@@ -20,18 +19,18 @@ def elabora_cartella_video(path_cartella_originale, durata_taglio=30):
         if nome_file.lower().endswith(estensioni_valide):
             input_path = os.path.join(path_cartella_originale, nome_file)
             
-            # Crea il nome del file di output con il suffisso "_taglio"
+            # Crea il nome del file di output
             nome_base, estensione = os.path.splitext(nome_file)
-            output_path = os.path.join(nuova_cartella, f"{nome_base}_taglio{estensione}")
+            output_path = os.path.join(nuova_cartella, f"{nome_base}_finale{estensione}")
 
             try:
                 print(f"\n--- Elaborazione: {nome_file} ---")
                 video = VideoFileClip(input_path)
                 durata_totale = video.duration
                 
-                # Il taglio parte a metà del video
-                start_time = durata_totale / 2
-                end_time = min(durata_totale, start_time + durata_taglio)
+                # IL TAGLIO PARTE DALLA FINE (ultimi 30 secondi)
+                start_time = max(0, durata_totale - durata_taglio)
+                end_time = durata_totale
                 
                 # Esegue il taglio
                 nuovo_video = video.subclip(start_time, end_time)
@@ -46,9 +45,9 @@ def elabora_cartella_video(path_cartella_originale, durata_taglio=30):
             except Exception as e:
                 print(f"Errore durante l'elaborazione di {nome_file}: {e}")
 
-    print("\nProcesso completato per tutti i video.")
+    print("\nProcesso completato per tutti i video (Taglio Finale).")
 
 # Esempio di utilizzo:
-# Inserisci qui il percorso della tua cartella (es: "C:/Video/MieiVideo" o semplicemente "MieiVideo")
-percorso_input = "C:/Users/arion/Desktop/Tirocinio_AI_Pyt/fe/WPy64-31180/Video/CONTROLLI/records"
-elabora_cartella_video(percorso_input)
+if __name__ == "__main__":
+    percorso_input = "C:/Users/arion/Desktop/Tirocinio_AI_Pyt/fe/WPy64-31180/Video/CONTROLLI/records"
+    elabora_cartella_video_finale(percorso_input)
