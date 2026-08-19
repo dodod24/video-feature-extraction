@@ -1,5 +1,5 @@
 # Ignora la cartella delle analisi e i file generati
-Analisi/
+File_Analisi/
 *.xlsx
 *.json
 
